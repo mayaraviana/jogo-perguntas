@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jogo Perguntas e Bate-papo</title>
+    <link href="favicon.png" rel="icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <div class="">
+        <h1 class="display-4">Jogo de Perguntas Aleatórias</h1>
+        <p class="lead">Clique no botão para receber uma pergunta aleatória!</p>
+
+        <button class="btn btn-primary" onclick="sortearPergunta()">
+          Sortear Pergunta
+        </button>
+
+        <div id="pergunta-container" class="mt-4"></div>
+      </div>
+    </div>
+
+    <script>
+      // Array com perguntas
+      const perguntas = [
+        "Suas refeições preferidas são de manhã ou à noite?",
+        "Qual é a sua bebida quente favorita?",
+        "Qual personagem de TV e shows você acha que mais parece com você?",
+        "Todos os jogadores compartilham algo pelo qual são gratos hoje.",
+        "Qual é o primeiro e maior conselho que você daria para qualquer pessoa? Qual é a lição que você tem marcada no fundo do seu coração?",
+        "Você já disse 'eu te amo' para alguém, mas hoje em dia não falaria novamente para essa pessoa?",
+        "Qual é o seu feriado/festa favorita?",
+        "Se você pudesse fazer uma pergunta para qualquer pessoa, viva ou morta, quem seria e por quê?",
+        "Qual é o seu livro favorito e por quê?",
+        "Se você pudesse viajar no tempo, com a idade que tem hoje, aonde você iria e o que faria lá?",
+        "Se você tivesse superpoderes por um dia, quais poderes escolheria e como os usaria?",
+        "Qual é a sua música favorita?",
+        "Se você pudesse viver em qualquer lugar do mundo por um ano, onde seria e por quê?",
+        "Conte uma história, qualquer história, pode até ser mentira.",
+        "Se você pudesse dominar uma habilidade instantaneamente, qual seria?",
+        "Se você pudesse ser um personagem de filme por um dia, quem seria e o que faria?",
+        "Qual é a sua tradição familiar favorita e por que ela é especial para você?",
+        "Se você pudesse mudar alguma coisa no mundo, o que seria e por quê?",
+        "Qual é o seu lema de vida?",
+        "Qual a sua crença não religiosa favorita?",
+        "Qual foi a melhor coisa que você já fez/faz bêbado?",
+        "Quem da roda você levaria para uma viagem? Qual o destino e por quê?",
+        "Quais duas pessoas da roda você acha que são as mais próximas e por quê?",
+        "Conte uma mentira e uma verdade e deixe as pessoas adivinharem qual é a certa.",
+        "Se você pudesse escolher qualquer superpoder para seu animal de estimação, qual seria e por quê?",
+        "Qual é a sua lembrança mais engraçada de infância?",
+        "Se você pudesse ter um dia perfeito sem preocupações, como seria esse dia?",
+        "Conte sobre algo que você acha estranho e que você faz.",
+        "Recomende algo para assistir, o primeiro que vier na cabeça. Pode ser filme, novela, série.",
+        "Se você pudesse dar um conselho para seu eu mais jovem, o que seria?",
+        "O que te faz sentir grato todos os dias?",
+        "Qual é o seu lugar favorito na casa e por quê?",
+        "Se você tivesse uma máquina do tempo, qual momento da sua vida você voltaria?",
+        "Quem na sua família você acha que tem o senso de humor mais engraçado e por quê?",
+        "Se você pudesse trocar de lugar com qualquer pessoa no mundo por um dia, quem seria e por quê?",
+        "Se você pudesse ter um animal de estimação exótico, qual seria?",
+        "Qual é a sua habilidade que as pessoas da mesa não sabem?",
+        "Se você fosse um emoji, qual seria e por quê?",
+        "Se você tivesse que criar um slogan para sua vida, qual seria?",
+        "Qual é o seu prato de comida reconfortante favorito?",
+        "Se você pudesse passar um dia com qualquer personagem fictício, quem seria e por quê?",
+        "Qual é o seu cheiro favorito?",
+        "Qual é a sua brincadeira favorita na infância?",
+        "Qual é a sua definição de felicidade?",
+        "O que você faz para ser amigo de alguém?",
+        "Se você tivesse que escolher um superpoder emocional, qual seria e por quê?",
+        "O que você gostaria de aprender ainda?",
+        "O que você faz quando está sozinho?",
+        "Qual é a sua piada ruim favorita?",
+        "Se uma tarefa doméstica da sua escolha pudesse ser realizada automaticamente pelo resto da sua vida, qual você escolheria?",
+        "Se você pudesse transformar uma tarefa diária em um esporte olímpico, qual seria?",
+        "Se te dessem uma caixa com tudo o que você já perdeu na vida, qual seria a primeira coisa que você procuraria? Pode ser objeto, emoção, pessoa, tudo.",
+        "Qual era o seu lanche favorito da escola quando criança?",
+        "Se você pudesse reviver algo específico da sua infância, qual seria e por quê?",
+        "O que você gostava de fazer nas férias de verão quando era criança?",
+        "Qual era a sua matéria favorita na escola e por quê?",
+        "Qual era o seu brinquedo favorito quando era criança?",
+        "Conte sobre os seus amigos da infância mais próximos, quem eram, como estão hoje.",
+        "Qual é o elogio é o seu favorito?",
+        "Qual é o seu filme favorito e por que?",
+        "Se você fosse um herói de quadrinhos, qual seria seu superpoder?",
+        "Qual é a sua lembrança mais marcante de um evento ao ar livre?",
+        "Se você pudesse entrevistar uma pessoa famosa, quem seria e qual seria sua primeira pergunta?",
+        "O que você faria se ganhasse na loteria amanhã?",
+        "Se você tivesse que mudar de carreira hoje, qual seria sua nova profissão dos sonhos?",
+        "Se você pudesse ser famoso por uma habilidade única, qual seria?",
+        "Se você pudesse ter uma conversa com seu animal de estimação, o que perguntaria?",
+        "Se você tivesse que escolher um lugar no mundo para viver para sempre, onde seria?",
+        "Se você fosse um explorador, qual lugar desconhecido gostaria de descobrir?",
+        "Se você pudesse aprender instantaneamente qualquer idioma, qual escolheria?",
+        "Qual é o seu esporte favorito para assistir, mesmo que você não jogue?",
+        "Se você tivesse que participar de um reality show, qual escolheria e por quê?",
+        "Se você pudesse se encontrar com seu eu do futuro, que conselho daria?",
+        "Se você pudesse ter um talento artístico, qual escolheria? (dança, pintura, música, etc.)",
+        "Qual é o seu evento ao vivo favorito que você já participou?",
+        "Qual é o seu aplicativo favorito no seu celular?",
+        "Se você pudesse participar de qualquer momento histórico, qual seria?",
+        "Qual é o seu estilo musical preferido?",
+        "Se você tivesse que criar uma nova tradição de família,o que seria?",
+        "Se você pudesse ser imune a uma coisa, o que escolheria?",
+        "Se você tivesse que escolher uma música para tocar toda vez que entrasse em um ambiente, qual seria?",
+        "Se você pudesse ser um profissional em qualquer esporte, qual escolheria?",
+        "Se você tivesse que escolher um superpoder para todos as pessoas da mesa, qual seria?",
+        "Se você pudesse ter um assistente pessoal, o que pediria para ele fazer?",
+        "Qual a sua cor favorita?",
+        "Qual o seu número favorito?",
+        "Se você pudesse ser um chef especializado em um tipo de cozinha, qual escolheria?",
+        "Se você tivesse que escolher uma era histórica para viver, qual seria?",
+      ];
+
+      function sortearPergunta() {
+        // Sortear um índice aleatório
+        const indiceSorteado = Math.floor(Math.random() * perguntas.length);
+
+        // Exibir a pergunta sorteada na tela
+        const perguntaContainer = document.getElementById("pergunta-container");
+        perguntaContainer.innerHTML =
+          '<p class="lead ask">' + perguntas[indiceSorteado] + "</p>";
+      }
+    </script>
+  </body>
+</html>
